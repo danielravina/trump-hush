@@ -19,7 +19,6 @@ redis==2.10.5
 scikit-learn==0.17.1
 scikits.talkbox==0.2.5
 scipy==0.17.0
-seqlearn==0.2
 six==1.10.0
 sklearn==0.0
 Werkzeug==0.11.9
