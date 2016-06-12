@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="static/images/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="static/images/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="static/images/favicon-48x48.png" sizes="48x48">
+  <meta charset="UTF-8">
+  <meta property="og:url"           content="" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="Trump Learn" />
+  <meta property="og:description"   content="" />
+  <meta property="og:image"         content="" />
+  <title>Trump Learn</title>
+  <link rel="stylesheet" href="static/css/style.css">
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</head>
+
+<body>
+  <div id="sidebar">
+    <div class="sidebar-content">
+      <div class="logo"></div>
+      <h1>Trump Learn</h1>
+      <p>Recognize Donald Trump's voice in youtube videos using machine learning.</p>
+      <form id="new-video">
+        <label>Add a video:</label>
+        <input type="text" placeholder="https://www.youtube.com/watch?v=...." id="new-video-input">
+        <input type="submit" value="Recognize" />
+      </form>
+    </div>
+  </div>
+  <div id="mainarea">
+    <div class="gauge-text" id="yes-trump">trump</div>
+    <div id="playerWrapper">
+      <div id="player"></div>
+    </div>
+    <div class="gauge-text" id="not-trump">not trump</div>
+    <div class="rest" id="needle"></div>
+    <div class="footer">
+      <p>Made by <a href="//github.com/danielravina/trumplearn" target="_blank">@danielravina</a> | Graphics by <a href='http://www.freepik.com'>freepik</a></p>
+    </div>
+    <div class="social">
+      <ul>
+        <li>
+          <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="trumplearn"></a>
+        </li>
+        <li>
+          <div class="fb-share-button"
+          data-href="http://www.your-domain.com/your-page.html"
+          data-layout="button">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div id="error"></div>
+  </div>
+  <div id="loadingWrapper">
+    <div class="loading">
+      <img src="https://media.giphy.com/media/jSB2l4zJ82Rvq/giphy.gif" alt="">
+      <a href="http://giphy.com/search/trump" target="_blank">giphy</a>
+      <p>Recognizing...</p>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+  <script src="static/js/application.js"></script>
+  <script src="static/js/new-video-form.js"></script>
+</body>
+</html>

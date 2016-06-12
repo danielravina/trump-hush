@@ -1,0 +1,11 @@
+*.pyc
+.DS_Store
+*.wav
+*.npy
+*.sass
+.sass-cache
+*.log
+*.rdb
+.env
+Procfile
+*.map
