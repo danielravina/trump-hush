@@ -1,3 +1,8 @@
+if [ $PGPASSWORD == "" ]; then
+  echo "PGPASSWORD is missing";
+  exit
+done
+
 echo "updating / upgrading box"
 apt-get upgrade && apt-get update -y 1> /dev/null
 
@@ -54,5 +59,20 @@ cd utils
 ./install_server.sh
 service redis_6379 start
 
+
+
+echo "Install application code"
+mkdir -p /home/app
+cd /home/app
+git clone https://github.com/danielravina/trump-learn
+cd trump-learn
+pip install -r requirements.txt
+
+
+# Set psql (MANUALLY):
+# 1. useradd app
+# 2. export PGPASSWORD=whatever
+# 3. sudo -u postgres psql postgres -c "CREATE ROLE app with LOGIN CREATEDB ENCRYPTED PASSWORD $PGPASSWORD;"
+# 4. psql
 # psql; \connect trump; select * from trumps; CREATE ROLE app with LOGIN; ALTER ROLE app with ENCRYPTED PASSWORD 'password';
-useradd app
+#
