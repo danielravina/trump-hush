@@ -1,5 +1,3 @@
-#! /vagrant/bin/python
-
 import json
 import os
 import sys

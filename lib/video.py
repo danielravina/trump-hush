@@ -21,7 +21,8 @@ class Video:
   # TODO: Fix this. need consistent connection.
   @classmethod
   def connect(self):
-    Video.db = psycopg2.connect(os.environ['POSTGRES_CRED'])
+    print os.environ['POSTGRES_CRED']
+    Video.db = psycopg2.connect("dbname=trumplearn user=app password=daniel host=localhost")
     Video.conn = Video.db.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
   @classmethod

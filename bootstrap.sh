@@ -77,11 +77,8 @@ pip install numpy cython
 cd src
 pip install -r 'requirements.txt'
 
-# Nginx setup
-sudo rm /etc/nginx/sites-enabled/default
-sudo touch /etc/nginx/sites-enabled/trumplearn.com
-sudo cat >/etc/nginx/sites-enabled/trumplearn.com <<EOL
-
+echo "Nginx setup"
+sudo cat > ~/nginx.conf <<EOL
 server {
   listen 80 default_server;
   listen [::]:80 default_server ipv6only=on;
@@ -103,13 +100,16 @@ server {
   }
 }
 EOL
+sudo mv ~/nginx.conf /etc/nginx/sites-enabled/trumplearn.com
+sudo rm /etc/nginx/sites-enabled/default
 
 echo "Setup Postgres"
-sudo -u postgres psql postgres -c "CREATE ROLE app with LOGIN CREATEDB ENCRYPTED PASSWORD '$PGPASSWORD'; CREATE database trumplearn;"
+sudo -u postgres psql postgres -c "CREATE ROLE app with LOGIN CREATEDB ENCRYPTED PASSWORD '$PGPASSWORD';"
+sudo -u postgres psql postgres -c "CREATE database trumplearn;"
 python ~/src/db/create.py
 
 echo "add environment"
 echo "export REDIS_SERVER='redis://127.0.0.1:6379'" >> ~/.bashrc
-echo "export POSTGRES_CRED='dbname=trumplearn user=app password=\"$PGPASSWORD\" host=localhost'" >> ~/.bashrc
+echo 'export POSTGRES_CRED=dbname=trumplearn user=app password=$PGPASSWORD host=localhost"' >> ~/.bashrc
 echo "export DEBUG=False" >> ~/.bashrc
 source ~/.bashrc
