@@ -18,6 +18,7 @@ class Video:
       'state': ''
     }
 
+  # TODO: Fix this. need consistent connection.
   @classmethod
   def connect(self):
     Video.db = psycopg2.connect(os.environ['POSTGRES_CRED'])

@@ -1,5 +1,5 @@
 import psycopg2
-conn = psycopg2.connect("dbname=trumplearn user=app password=daniel host=localhost")
+conn = psycopg2.connect(os.environ['POSTGRES_CRED'])
 c = conn.cursor()
 
 c.execute (

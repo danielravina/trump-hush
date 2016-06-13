@@ -133,7 +133,7 @@ function loadVideoFromUrl(callback) {
     videoId = "popular"
   }
 
-  $.getJSON('videos/' + videoId, function(json) {
+  $.getJSON('api/videos/' + videoId, function(json) {
     if(json.delayed) {
       runPolling(videoId)
     } else if (json.is_too_long) {
@@ -163,7 +163,7 @@ function runPolling(videoId) {
   loadingScreen.show()
 
   poll = setInterval(function() {
-    $.getJSON('videos/' + videoId + "/poll", function(video) {
+    $.getJSON('api/videos/' + videoId + "/poll", function(video) {
       switch(video.state) {
         case "not_ready":
           return
