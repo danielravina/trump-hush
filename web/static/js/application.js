@@ -113,7 +113,7 @@ function showError(msg) {
   var display;
   switch(msg) {
     case 'long':
-      display = "Videos can't be huuuuuge. 10 minutes max";
+      display = "Videos can't be huuuuuge. 20 minutes max";
       break
     case 'not_found':
       display = "No such video of me.";

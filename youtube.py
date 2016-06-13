@@ -57,8 +57,8 @@ class Downloader:
     duration       = output[-1]
     time_parts     = str.split(str(duration), ':' )
     time_parts_len = len(time_parts)
-
-    if time_parts_len == 1 or (time_parts_len == 2 and int(time_parts[0]) <= 10): # if 3 then it's over an hour
+                              # if 3 then it's over an hour
+    if time_parts_len == 1 or (time_parts_len == 2 and int(time_parts[0]) <= 25):
       output[:] = []
       return True
 
