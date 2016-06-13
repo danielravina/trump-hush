@@ -78,7 +78,7 @@ label {
     #mainarea #needle.rest {
       animation: floating 1.5s infinite ease-out; }
   #mainarea #playerWrapper {
-    z-index: 1;
+    z-index: 0;
     position: relative;
     top: 50%;
     transform: translateY(-50%); }
@@ -101,19 +101,19 @@ label {
   top: 0;
   left: 0; }
   #sidebar a, #sidebar a:visited {
-    color: white;
+    color: #191919;
     font-weight: 600;
     display: inline-block;
     margin: 0 2px; }
   #sidebar .sidebar-content {
-    margin-top: 90px;
+    margin-top: 30px;
     padding: 25px; }
     #sidebar .sidebar-content p {
       clear: both;
       line-height: 1.2;
-      font-size: 21px;
+      font-size: 22px;
       text-align: center;
-      margin-bottom: 30px; }
+      margin-bottom: 50px; }
   #sidebar .logo {
     margin: auto;
     background: url(/static/images/logo.png);
@@ -182,19 +182,37 @@ label {
 
 .social {
   position: absolute;
-  right: 10px;
-  bottom: 3px; }
+  right: 15px;
+  bottom: 15px; }
   .social li {
     list-style: none;
-    margin-bottom: 5px; }
-  .social .fb_iframe_widget {
-    position: relative !important;
-    bottom: 2px; }
+    margin-bottom: 5px;
+    z-index: 2; }
+    .social li a {
+      transition: all 0.3s ease;
+      width: 32px;
+      height: 32px;
+      background-size: 100%;
+      display: block; }
+      .social li a#twitter {
+        background-image: url("../images/icons/twitter.png"); }
+      .social li a#github {
+        background-image: url("../images/icons/github-logo.png"); }
+      .social li a#facebook {
+        background-image: url("../images/icons/facebook.png"); }
+      .social li a#reddit {
+        background-image: url("../images/icons/reddit.png"); }
+      .social li a:hover {
+        transform: scale(1.3); }
 
 .footer {
   width: 100%;
   position: absolute;
-  bottom: 0; }
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px; }
 
 #loadingWrapper {
   background-color: rgba(0, 0, 0, 0.6);

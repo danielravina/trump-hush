@@ -5,21 +5,13 @@
   <link rel="icon" type="image/png" href="static/images/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="static/images/favicon-48x48.png" sizes="48x48">
   <meta charset="UTF-8">
-  <meta property="og:url"           content="" />
+  <meta property="og:url"           content="trumplearn.com" />
   <meta property="og:type"          content="website" />
   <meta property="og:title"         content="Trump Learn" />
-  <meta property="og:description"   content="" />
-  <meta property="og:image"         content="" />
+  <meta property="og:description"   content="Recognize the voice of Donald Trump in Youtube videos" />
+  <meta property="og:image"         content="static/images/logo.png" />
   <title>Trump Learn</title>
   <link rel="stylesheet" href="static/css/style.css">
-    <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </head>
 
 <body>
@@ -34,6 +26,9 @@
         <input type="submit" value="Recognize" />
       </form>
     </div>
+    <div class="footer">
+      Made by <a href="twitter.com/dnaielravina">@danielravina</a> | Graphics by <a href='http://www.freepik.com'>freepik</a></p>
+    </div>
   </div>
   <div id="mainarea">
     <div class="gauge-text" id="yes-trump">trump</div>
@@ -42,19 +37,19 @@
     </div>
     <div class="gauge-text" id="not-trump">not trump</div>
     <div class="rest" id="needle"></div>
-    <div class="footer">
-      <p>Made by <a href="//github.com/danielravina/trump-learn" target="_blank">@danielravina</a> | Graphics by <a href='http://www.freepik.com'>freepik</a></p>
-    </div>
     <div class="social">
       <ul>
         <li>
-          <a href="https://twitter.com/share" class="twitter-share-button" data-hashtags="trumplearn"></a>
+          <a href="https://twitter.com/intent/tweet?hashtags=trumplearn" class="external" id="twitter"></a>
         </li>
         <li>
-          <div class="fb-share-button"
-          data-href="http://www.your-domain.com/your-page.html"
-          data-layout="button">
-          </div>
+          <a href="http://www.reddit.com/submit?url=trumplearn.com&title=Trump-Learn%20-%20Trump%20Voice%20Recognition" class="external" id="reddit"></a>
+        </li>
+        <li>
+          <a href="http://www.facebook.com/share.php?u=trumplearn.com&title=Trump-Learn%20-%20Trump%20Voice%20Recognition" class="external" id='facebook'></a>
+        </li>
+        <li>
+          <a href="//github.com/danielravina/trump-learn" target="_blank" id="github">
         </li>
       </ul>
     </div>
@@ -63,7 +58,7 @@
   <div id="loadingWrapper">
     <div class="loading">
       <img src="https://media.giphy.com/media/jSB2l4zJ82Rvq/giphy.gif" alt="">
-      <a href="http://giphy.com/search/trump" target="_blank">giphy</a>
+      <a href="http://giphy.com/search/trump" class="external">giphy</a>
       <p>Recognizing...</p>
     </div>
   </div>
@@ -71,5 +66,20 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
   <script src="static/js/application.js"></script>
   <script src="static/js/new-video-form.js"></script>
+  <script>
+    function openwindow(url){
+      var w = 640
+      var h = 360
+      var left = (screen.width/2)-(w/2);
+      var top = (screen.height/2)-(h/2);
+      NewWindow=window.open(url,'newWin','width='+w+',height='+h+',toolbar=No,top='+top+', left='+left+',location=No,scrollbars=no,status=No,fullscreen=No');
+      NewWindow.focus();
+      void(0);
+    }
+    $('a.external').click(function(e) {
+      e.preventDefault()
+      openwindow($(e.target).attr('href'))
+    })
+    </script>
 </body>
 </html>
