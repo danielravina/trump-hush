@@ -1,9 +1,16 @@
-echo "updating / upgrading box"
+if [ -n "$PGPASSWORD" ]; then
+  echo "PROVISIONING BOX"
+else
+  echo 'Missing params $PGPASSWORD'
+  exit
+fi
+
+echo "UPDATING / UPGRADING BOX"
 
 sudo apt-get upgrade -y 2>&1 >/dev/null
 sudo apt-get update -y 2>&1 >/dev/null
 
-echo "Installing required packages"
+echo "INSTALLING REQUIRED PACKAGES"
 
 packagelist=(
   build-essential
@@ -30,12 +37,12 @@ packagelist=(
   python-psycopg2
   libpq-dev
   tcl8.5
+  nginx
 )
 
 sudo apt-get install ${packagelist[@]} -y 2>&1 >/dev/null
 
-# Redis
-echo "Installing redis"
+echo "INSTALLING REDIS"
 cd ~
 wget http://download.redis.io/releases/redis-stable.tar.gz 2>&1 >/dev/null
 tar xzf redis-stable.tar.gz
@@ -50,7 +57,7 @@ cd ../../;
 rm -R redis-stable
 rm redis-stable.tar.gz
 
-echo "Installing Yaafe"
+echo "INSTALLING YAAFE"
 cd ~
 git clone https://github.com/Yaafe/Yaafe yaafe
 cd yaafe
@@ -59,12 +66,12 @@ cd build
 ccmake ..
 make
 sudo make install
-echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/" >> ~/.bashrc; source ~/.bashrc
+echo "export ld_library_path=$ld_library_path:/usr/local/lib/" >> ~/.bashrc; source ~/.bashrc
 
-echo "Installing youtube-dl"
+echo "INSTALLING YOUTUBE-DL"
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl 2>&1 >/dev/null
 
-echo "Install application code"
+echo "INSTALL APPLICATION CODE"
 
 cd ~
 sudo pip install --upgrade pip
@@ -77,7 +84,7 @@ pip install numpy cython
 cd src
 pip install -r 'requirements.txt'
 
-echo "Nginx setup"
+echo "NGINX SETUP"
 sudo cat > ~/nginx.conf <<EOL
 server {
   listen 80 default_server;
@@ -102,14 +109,17 @@ server {
 EOL
 sudo mv ~/nginx.conf /etc/nginx/sites-enabled/trumplearn.com
 sudo rm /etc/nginx/sites-enabled/default
+sudo service nginx restart
 
-echo "Setup Postgres"
+echo "ENVIRONMENT VARIABLES"
+echo "export REDIS_SERVER='redis://127.0.0.1:6379'" >> ~/.bashrc
+echo "export POSTGRES_CRED='dbname=trumplearn user=app password=$PGPASSWORD host=localhost'" >> ~/.bashrc
+echo "export DEBUG=false" >> ~/.bashrc
+source ~/.bashrc
+
+echo "SETUP POSTGRES"
 sudo -u postgres psql postgres -c "CREATE ROLE app with LOGIN CREATEDB ENCRYPTED PASSWORD '$PGPASSWORD';"
 sudo -u postgres psql postgres -c "CREATE database trumplearn;"
 python ~/src/db/create.py
 
-echo "add environment"
-echo "export REDIS_SERVER='redis://127.0.0.1:6379'" >> ~/.bashrc
-echo 'export POSTGRES_CRED=dbname=trumplearn user=app password=$PGPASSWORD host=localhost"' >> ~/.bashrc
-echo "export DEBUG=False" >> ~/.bashrc
-source ~/.bashrc
+echo "PROVISIONING COMPLETED"

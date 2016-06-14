@@ -4,8 +4,16 @@
 var player, timer, counter, currentTimeIndex, confidence, trump_json;
 
 var loadingScreen = {
+  giphys: [
+    "https://media.giphy.com/media/jSB2l4zJ82Rvq/giphy.gif",
+    "http://i.giphy.com/RXN4DTdcdz4VG.gif",
+    "http://i.giphy.com/EO1PaXFeU3lSM.gif"
+  ],
   init: function() {
+    var img = document.getElementById('loading-img')
+    img.src = this.giphys[Math.floor(Math.random() * ((this.giphys.length) - 0)) + 0];
     this.el = document.getElementById('loadingWrapper')
+
   },
   show: function() {
     this.el.className = 'active'
