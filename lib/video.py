@@ -13,7 +13,6 @@ class Video:
       'youtube_id': '',
       'rate': 0.0,
       'predictions': '',
-      'thumbnail': '',
       'title': '',
       'state': ''
     }
@@ -56,14 +55,13 @@ class Video:
       self.attrs['youtube_id'],
       self.attrs['rate'],
       self.attrs['predictions'],
-      self.attrs['thumbnail'],
       self.attrs['title'],
       self.attrs['state']
     )
 
     Video.conn.execute('''
-      INSERT INTO videos (youtube_id, rate, predictions, thumbnail, title, state)
-      VALUES (%s, %s, %s, %s, %s, %s);
+      INSERT INTO videos (youtube_id, rate, predictions, title, state)
+      VALUES (%s, %s, %s, %s, %s);
       ''', values
     )
 
@@ -87,6 +85,7 @@ class Video:
     )
 
     Video.db.commit()
+
 
   def last(self, num = 1):
     Video.conn.execute(

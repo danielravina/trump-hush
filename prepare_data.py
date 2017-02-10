@@ -11,4 +11,3 @@ for path in [pos_path, neg_path]:
     if file_name.endswith('.wav'):
       file_path = path + file_name
       extractor.extract(file_path, save_to_disk=True)
-

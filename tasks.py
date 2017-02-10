@@ -3,7 +3,6 @@ from trump_recognizer import TrumpRecognizer
 from youtube import Downloader
 from celery import Celery
 from lib.video import Video
-import logger
 import os
 import re
 

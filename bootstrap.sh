@@ -1,7 +1,8 @@
 if [ -n "$PGPASSWORD" ]; then
-  echo "PROVISIONING BOX"
+  echo "* PROVISIONING BOX..."
 else
-  echo 'Missing params $PGPASSWORD'
+  echo 'Missing param $PGPASSWORD'
+  echo 'export PGPASSWORD="password"'
   exit
 fi
 
@@ -66,7 +67,6 @@ cd build
 ccmake ..
 make
 sudo make install
-echo "export ld_library_path=$ld_library_path:/usr/local/lib/" >> ~/.bashrc; source ~/.bashrc
 
 echo "INSTALLING YOUTUBE-DL"
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O /usr/local/bin/youtube-dl 2>&1 >/dev/null
@@ -107,19 +107,46 @@ server {
   }
 }
 EOL
+
 sudo mv ~/nginx.conf /etc/nginx/sites-enabled/trumplearn.com
 sudo rm /etc/nginx/sites-enabled/default
 sudo service nginx restart
 
-echo "ENVIRONMENT VARIABLES"
-echo "export REDIS_SERVER='redis://127.0.0.1:6379'" >> ~/.bashrc
-echo "export POSTGRES_CRED='dbname=trumplearn user=app password=$PGPASSWORD host=localhost'" >> ~/.bashrc
-echo "export DEBUG=false" >> ~/.bashrc
-source ~/.bashrc
+
 
 echo "SETUP POSTGRES"
 sudo -u postgres psql postgres -c "CREATE ROLE app with LOGIN CREATEDB ENCRYPTED PASSWORD '$PGPASSWORD';"
 sudo -u postgres psql postgres -c "CREATE database trumplearn;"
+
+cat > ~/src/Procfile <<EOL
+worker: /home/ubuntu/bin/celery -A tasks worker --loglevel=info
+web: /home/ubuntu/bin/python ./web/server.py
+EOL
+
+export POSTGRES_CRED='dbname=trumplearn user=app password='$PGPASSWORD' host=localhost'
+
+cat > ~/src/.env <<EOL
+PGPASSWORD="$PGPASSWORD"
+REDIS_SERVER='redis://127.0.0.1:6379'
+POSTGRES_CRED="$POSTGRES_CRED"
+DEBUG=False
+LD_LIBRARY_PATH=/usr/local/lib/
+EOL
+
+cat >> ~/.profile <<EOL
+export PGPASSWORD="$PGPASSWORD"
+export REDIS_SERVER='redis://127.0.0.1:6379'
+export POSTGRES_CRED="$POSTGRES_CRED"
+export DEBUG=True
+export LD_LIBRARY_PATH=/usr/local/lib/
+EOL
+
+
 python ~/src/db/create.py
 
-echo "PROVISIONING COMPLETED"
+# Export service:
+cd ~/src
+sudo /home/ubuntu/bin/honcho export -c process=2 -p 3000 -u ubuntu -a trump upstart /etc/init
+sudo start trump
+
+echo "PROVISIONING COMPLETED!"

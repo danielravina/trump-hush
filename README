@@ -1,5 +1,0 @@
-## Required Environment Variables
-
-REDIS_SERVER='redis://127.0.0.1:6379'
-POSTGRES_CRED="dbname=trumplearn user=app password=password host=localhost"
-DEBUG=True # for development

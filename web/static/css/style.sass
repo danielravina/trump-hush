@@ -1,0 +1,375 @@
+@import url(https://fonts.googleapis.com/css?family=Rubik+One|family=Open+Sans:400,200)
+
+$bg: #fefefe
+$gold: gold
+
+=all-transition
+  transition: all .4s ease
+
+=hovers($baseColor)
+  background-color: $baseColor
+  &:hover
+    background-color: darken($baseColor, 10%)
+body
+  color: #444
+  height: 100%
+  margin: auto
+  font: 600 16px / 16px 'Open Sans', sans-serif
+  background: $bg
+  +all-transition
+  &.red
+    background: $gold
+
+ul
+  margin: 0
+  padding: 0
+
+h1,h4
+  font-family: 'Rubik One', sans-serif
+
+h1
+  letter-spacing: -2px
+h4
+  font-weight: 100
+  font-size: 22px
+
+p, h1, h4, label
+  color: #404040
+
+p, input, label, input
+  font-family: 'Open Sans', sans-serif
+  font-weight: 300
+
+#mainarea
+  position: relative
+.intro
+  +all-transition
+  opacity: 0
+  visibility: hidden
+  position: absolute
+  width: 100%
+  margin: auto
+  margin-top: -30px
+  text-align: center
+  z-index: 1
+  background: white
+  top: 40px
+  bottom: 0
+  &.active
+    visibility: visible
+    opacity: 1
+  .wrapper
+    width: 560px
+    margin: auto
+    p
+      line-height: 1.5
+      font-size: 36px
+      margin-bottom: 15px
+      margin-top: 8px
+      &.smaller
+        text-align: left
+        font-size: 20px
+  .magic
+    text-decoration: underline
+    color: inherit
+
+#playerWrapper
+  +all-transition
+  opacity: 0
+  visibility: hidden
+  &.active
+    opacity: 1
+    visibility: visible
+  position: relative
+  margin: auto
+  top: 15px
+  width: 640px
+  h3
+    margin-top: 15px
+    margin-bottom: 15px
+    font-weight: normal
+
+.new-video
+  input
+    font-style: italic
+    box-sizing: border-box
+    width: 100%
+    height: 100%
+    display: block
+    padding: 8px
+    font-size: 18px
+    margin-bottom: 10px
+    color: darken(#B3B3B3, 30)
+    border: solid 2px rgba(#333333, 0.1)
+    outline: none
+    border-radius: 3px
+
+#header
+  background: rgba(black, 0.03)
+  a
+    display: flex
+    display: -webkit-flex
+    align-items: center
+    text-decoration: none
+  .container
+    box-sizing: border-box
+    display: flex
+    display: -webkit-flex
+    align-items: center
+    max-width: 1024px
+    height: 80px
+    margin: auto
+    padding-left: 30px
+    padding-right: 30px
+  .logo
+    display: flex
+    display: -webkit-flex
+
+    background: url('http://www.trumphush.com/static/images/logo128x128.png')
+    width: 70px
+    height: 70px
+    background-size: 100%
+    background-repeat: no-repeat
+  .info
+    margin-left: 10px
+    p
+      font-size: 23px
+      margin-top: 34px
+  .title
+    margin: 0
+    span
+      display: inline-block
+      border: 1px solid #404040
+      background: #404040
+      padding: 18px 20px
+      letter-spacing: 3px
+      color: rgba(white, 0.5)
+      line-height: 0
+      &.talking
+        color: rgba(255, 249, 57, 0.8)
+
+
+  h1
+    font-size: 32px
+    margin-bottom: 0
+  p
+    font-size: 16px
+  h4
+    margin-bottom: 0
+    margin-top: 50px
+    padding: 0
+    line-height: 0
+
+.social
+  display: flex
+  display: -webkit-flex
+  justify-content: flex-end
+  flex: 1
+  -webkit-flex: 1
+  img
+    display: inline-block
+    margin-left: 5px
+    width: 32px
+
+.footer
+  width: 100%
+
+  font-size: 12px
+  padding-left: 20px
+  box-sizing: border-box
+  a
+    text-decoration: none
+    color: #a8049b
+
+.clearfix
+  clear: both
+
+#loadingWrapper
+  background-color: rgba(0, 0, 0, 0.6)
+  width: 100vw
+  height: 100vh
+  position: fixed
+  left: 0
+  top: 0
+  z-index: 9
+  opacity: 0
+  transition: visibility 0s, opacity 0.2s ease-in
+  visibility: hidden
+  opacity: 0
+  &.active
+    opacity: 1
+    visibility: visible
+  .loading
+    width: 500px
+    height: auto
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%)
+    background: #434380
+    padding: 5px
+    border-radius: 4px
+    box-sizing: border-box
+    overflow: hidden
+    a
+      float: right
+      position: relative
+      bottom: 30px
+      right: 10px
+      color: white
+      font-family: "Pacifico"
+      cursor: pointer
+    p
+      font-family: "Press Start 2P", cursive
+      color: white
+      text-align: center
+    img
+      width: 100%
+      height: auto
+
+#error
+  background: #ff0065
+  text-align: center
+  padding: 10px
+  color: white
+  visibility: hidden
+  top: 0
+  position: absolute
+  left: 0
+  right: 0
+
+audio
+  display: none
+
+#audio-widget
+  width: 100%
+  box-sizing: border-box
+  .row
+    display: flex
+    display: -webkit-flex
+    box-sizing: border-box
+  .column
+    box-sizing: border-box
+    display: flex
+    display: -webkit-flex
+    justify-content: center
+    align-items: center
+    transition: all .3s ease
+    background: #eee
+    color: #333333
+    border-left: 1px solid rgba(#333333, 0.1)
+    &:first-child
+      border-left: none
+    &.active
+      background: #85E2FF
+    cursor: pointer
+    flex: 1
+    -webkit-flex: 1
+    height: 75px
+    p
+      box-sizing: border-box
+      text-align: center
+      font-size: 12px
+      font-weight: normal
+      line-height: 23px
+      i
+        box-sizing: border-box
+        font-style: normal
+        font-size: 18px
+        display: block
+        margin: auto
+
+.playlist
+  width: 100%
+  .contents
+    display: flex
+    display: -webkit-flex
+    justify-content: space-between
+    -webkit-justify-content: space-around
+    flex-flow: row wrap
+    -webkit-flex-flow: row wrap
+  .video
+    &:hover
+      opacity: 0.8
+    img
+      width: 180px
+      height: auto
+      border-radius: 3px
+      margin-bottom: 4px
+
+.loadMore
+  position: relative
+  bottom: 44px
+  right: 22px
+  cursor: pointer
+
+.webui-popover-title
+  font-size: 16px
+.webui-popover-content
+  font-weight: 300
+  line-height: 1.5
+
+.fade-in
+  opacity: 0
+  opacity: 1 \9
+  -webkit-animation: fadeIn ease-in 0.4s
+  -moz-animation: fadeIn ease-in 0.4s
+  animation: fadeIn ease-in 0.4s
+
+  -webkit-animation-fill-mode: forwards
+  -moz-animation-fill-mode: forwards
+  animation-fill-mode: forwards
+
+  -webkit-animation-duration: .4s
+  -moz-animation-duration: .4s
+  animation-duration: .4s
+
+
+.fade-in.f-0
+  -webkit-animation-delay: .1s
+  -moz-animation-delay: .1s
+  animation-delay: .1s
+
+.fade-in.f-1
+  -webkit-animation-delay: .3s
+  -moz-animation-delay: .3s
+  animation-delay: .3s
+
+.fade-in.f-2
+  -webkit-animation-delay: .5s
+  -moz-animation-delay: .5s
+  animation-delay: .5s
+
+.fade-in.f-3
+  -webkit-animation-delay: .7s
+  -moz-animation-delay: .7s
+  animation-delay: .7s
+
+.fade-in.f-4
+  -webkit-animation-delay: .9s
+  -moz-animation-delay: .9s
+  animation-delay: .9s
+
+.fade-in.f-5
+  -webkit-animation-delay: 1s
+  -moz-animation-delay: 1s
+  animation-delay: 1s
+
+
+@-webkit-keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@-moz-keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+  @keyframes fadeIn
+  from
+    opacity: 0
+  to
+    opacity: 1

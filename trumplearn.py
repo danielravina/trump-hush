@@ -1,4 +1,3 @@
-import logger
 from lib.exceptions import VideoNotFound
 from lib.video import Video
 from tasks import add_new_video
@@ -9,7 +8,6 @@ YOUTUBE_ID_LENGTH = 11
 def run(youtube_src):
   Video.connect()
 
-  logger.log('Running %s' % youtube_src)
 
   youtube_id = __parse_youtube_src(youtube_src)
   video = get_video(youtube_src)
@@ -30,7 +28,6 @@ def popular():
   return popular
 
 def get_video(youtube_src):
-  logger.log('Checking %s' % youtube_src)
   youtube_id = __parse_youtube_src(youtube_src)
   video = Video()
 

@@ -1,6 +1,5 @@
 import youtube_dl
 from lib.exceptions import VideoTooLong, DownlaodError
-import logger
 output = []
 
 class Logger(object):
@@ -41,7 +40,6 @@ class Downloader:
     self.__youtube_id = None
 
   def start(self, youtube_id):
-    logger.log('Start downloading %s' % youtube_id)
     self.__youtube_id = youtube_id
 
     if self.__validate():
@@ -62,7 +60,6 @@ class Downloader:
       output[:] = []
       return True
 
-    logger.log('Error video too long %s' % self.__youtube_id)
     raise VideoTooLong
 
   def __download(self, options):
@@ -78,4 +75,3 @@ if __name__ == "__main__":
   youtube_id = sys.argv[1]
   dl = Downloader()
   print dl.start(youtube_id)
-

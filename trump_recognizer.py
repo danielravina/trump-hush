@@ -1,5 +1,4 @@
 from lib.exceptions import RecognitionError
-import logger
 import json
 import os
 import sklearn.externals.joblib as joblib
@@ -26,7 +25,6 @@ class TrumpRecognizer:
       # raise RecognitionError(e)
 
   def __clean(self):
-    logger.log("Recognizer: Removing wav file %s" % self.wave_file)
     os.remove(self.wave_file)
 
   def __parse(self):
@@ -39,7 +37,6 @@ class TrumpRecognizer:
 
     self.rate = round(self.rate, 2)
     self.predictions = json.dumps(tmp)
-    logger.log("Recognizer: Done parsing %s" % self.wave_file)
 
   def __predict(self):
     extractor = MFCCExtractor()
@@ -50,12 +47,8 @@ class TrumpRecognizer:
 
     milliseconds = (wave.getnframes() / float(extractor.rate)) * 1000.0
     self.rate = (float(extractor.step_size) / (extractor.rate/1000.0))
-
-    logger.log("Recognizer: Start recognizing %s" % self.wave_file)
-
     self.predictions = clf.predict_proba(mfcc)
 
-    logger.log("Recognizer: Done recognizing %s" % self.wave_file)
 
 if __name__ == "__main__":
   import sys

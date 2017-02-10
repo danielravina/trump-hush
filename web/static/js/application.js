@@ -3,17 +3,29 @@
 //
 var player, timer, counter, currentTimeIndex, confidence, trump_json;
 
+var effects = {
+  beep: $('#beep')[0],
+  fart: $('#fart')[0],
+  'silent-film': $('#silent-film')[0],
+  elevator: $('#elevator')[0],
+  sitcom: $('#sitcom')[0],
+  nature: $('#nature')[0],
+  china: $('#china')[0],
+}
+var effectKey = 'beep'
+var currentEffect = effects[effectKey];
 var loadingScreen = {
   giphys: [
     "https://media.giphy.com/media/jSB2l4zJ82Rvq/giphy.gif",
     "http://i.giphy.com/RXN4DTdcdz4VG.gif",
-    "http://i.giphy.com/EO1PaXFeU3lSM.gif"
+    "http://i.giphy.com/EO1PaXFeU3lSM.gif",
+    "http://i.giphy.com/VTTFaeCCTLGj6.gif",
   ],
   init: function() {
     var img = document.getElementById('loading-img')
     img.src = this.giphys[Math.floor(Math.random() * ((this.giphys.length) - 0)) + 0];
     this.el = document.getElementById('loadingWrapper')
-
+    return this
   },
   show: function() {
     this.el.className = 'active'
@@ -35,6 +47,9 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 window.onYouTubeIframeAPIReady = function() {
   loadVideoFromUrl(function(videoId) {
     initPlayer(videoId)
+    if(videoId) {
+      swapIntro()
+    }
   })
 }
 
@@ -46,72 +61,83 @@ function initPlayer(videoId) {
     "showinfo": 0,
     "rel": 0,
     "fs": 0,
+    "volume": 100,
     "videoId": videoId,
     "events": {
-      // "onReady": onPlayerReady, // Not in use now
+      "onReady": onPlayerReady,
       "onStateChange": onPlayerStateChange
     }
   })
 }
-// Not in use now
-// function onPlayerReady(event) {
-//   // event.target.playVideo();
-// }
 
 function onPlayerStateChange(event) {
   var rate = trump_json.rate
   clearInterval(timer);
+  if(currentEffect) { currentEffect.pause() }
   if (event.data == YT.PlayerState.PLAYING) {
     var currentTime = player.getCurrentTime()
     currentTimeIndex = Math.ceil((currentTime*1000)/rate)
-    timer = setInterval(talkAlong, rate);
+    timer = setInterval(talking, rate);
+  } else if(event.data == YT.PlayerState.ENDED) {
+    $('#new-video, .circle').addClass('active')
   }
 }
 
-//
-// Gauge code
-//
-var needle = document.getElementById('needle')
-var gauge  = document.body
-
-var MIN = 0.1
-var TRUMP_TRIGGER = 0.5
-var MAX_PX = $('#mainarea').height() - $('#needle').height()
-var needleDegree = MIN
-
-function talkAlong() {
-  currentTimeIndex++
-  confidence = trump_json.predictions[currentTimeIndex]
-  if(confidence > 0.96) {
-    updateGauge(confidence)
-  }
+function onPlayerReady() {
+  $('.loading-video').remove()
 }
 
-function updateGauge(newDeg) {
-  needlePosition = newDeg * MAX_PX
-  needle.style.transform = "translateY(-" + needlePosition + "px)"
+var body = document.body
+var hits = [];
 
-  if (newDeg > TRUMP_TRIGGER) {
-    gauge.className = 'red'
-    needle.className = ''
+// Make sure there are at least 6 consecutive confidence to avoide false positives
+function isHit(confidence) {
+  if (confidence > 0.86) {
+    hits.push(confidence)
   } else {
-    gauge.className = 'green'
+    hits.splice(-1,1);
+    return;
   }
-
-  if(newDeg <= MIN) {
-    needle.className = 'rest'
+  if (hits.length < 5) {
+    $onAir.removeClass('talking')
+    removeEffect()
+    return
+  } else {
+    $onAir.addClass('talking')
+    return true
   }
+}
+$onAir = $('h1.title').find('span')
+function talking() {
+  currentTimeIndex++;
+  confidence = trump_json.predictions[currentTimeIndex];
 
-  needleDegree = newDeg
+  if(isHit(confidence)) {
+    addEffect()
+  }
 }
 
-function pullBack() {
-  PULL_RATE = 0.02
-  setInterval(function() {
-    if(needleDegree >= MIN) {
-      updateGauge(needleDegree - PULL_RATE)
-    }
-  }, 50)
+function removeEffect() {
+  if(currentEffect) { currentEffect.pause() }
+  if(effectKey == 'sitcom') {
+    currentEffect.play()
+    return
+  }
+  player.unMute()
+}
+
+function addEffect() {
+  switch(effectKey) {
+    case 'sitcom':
+      player.unMute()
+      break;
+    case 'mute':
+      player.mute()
+      break;
+    default:
+      player.mute()
+      currentEffect.play()
+  }
 }
 
 //
@@ -121,10 +147,10 @@ function showError(msg) {
   var display;
   switch(msg) {
     case 'long':
-      display = "Videos can't be huuuuuge. 20 minutes max";
+      display = "Video can't be huuuuuge. 20 minutes max";
       break
     case 'not_found':
-      display = "No such video of me.";
+      display = "Video not found. It's definitely hillary's fault.";
       break
     default:
       display = "Something went tremendously wrong.";
@@ -138,11 +164,13 @@ function showError(msg) {
 function loadVideoFromUrl(callback) {
   var videoId = window.location.hash.replace("#","")
   if (!videoId) {
-    videoId = "popular"
+    return callback(null)
   }
 
   $.getJSON('api/videos/' + videoId, function(json) {
-    if(json.delayed) {
+    if(json.state === 'not_found') {
+      showError('not_found')
+    } else if(json.delayed) {
       runPolling(videoId)
     } else if (json.is_too_long) {
       showError('long')
@@ -159,7 +187,6 @@ function updateTrumpJson(json) {
   trump_json.predictions = JSON.parse(json.predictions)
 }
 
-
 function runPolling(videoId) {
   var poll;
   var stopPoll = function() {
@@ -170,7 +197,7 @@ function runPolling(videoId) {
 
   loadingScreen.show()
 
-  poll = setInterval(function() {
+  var poll = setInterval(function() {
     $.getJSON('api/videos/' + videoId + "/poll", function(video) {
       switch(video.state) {
         case "not_ready":
@@ -190,6 +217,7 @@ function runPolling(videoId) {
             initPlayer(video.youtube_id)
           } else {
             player.loadVideoById(video.youtube_id)
+            swapIntro()
           }
 
           stopPoll()
@@ -206,16 +234,50 @@ function clearInput() {
   $('#new-video-input').val("")
 }
 
+// Emojis
+
+$('.column.' + effectKey).addClass('active');
+
+Object.keys(effects).forEach(function(audio) { effects[audio].volume = 0.4 })
+
+$('.column').click(function(e) {
+  $column = $('.column').removeClass('active')
+  $(this).addClass('active')
+  if(currentEffect) { currentEffect.pause() }
+  effectKey = $(this).data("effect")
+  currentEffect = effects[effectKey]
+})
+
+function swapIntro() {
+  $('#playerWrapper').toggleClass('active', true)
+  $('.intro').toggleClass('active', false)
+}
+
 //
 // Entry point
 //
 $(window).on('hashchange', function() {
   loadVideoFromUrl(function(youtubeId){
     player.loadVideoById(youtubeId)
+    player.setVolume(100)
+    player.unMute()
+    swapIntro()
   })
 });
 
 $(document).ready(function(){
-  pullBack()
   loadingScreen.init()
 })
+
+$('.magic').webuiPopover({
+  title:'What\'s the magic?',
+  animation:'pop',
+  content:
+  'Trump Hush can identify the unique pitches<br>' +
+  'in trump\'s voice. The AI model was trained with<br>' +
+  'only one hour of video content, mostly interviews<br>' +
+  'and speaches, and is able to make the right decision <br>' +
+  '85% of the times. Therefore, you may hear his <br>' +
+  'voice occasionally (false-negative) or other speakers <br> ' +
+  'being censored instead. (false-positive)'
+});
