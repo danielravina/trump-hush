@@ -120,6 +120,8 @@ p, input, label, input {
     background-size: 100%;
     background-repeat: no-repeat; }
   #header .info {
+    display: flex;
+    display: -webkit-flex;
     margin-left: 10px; }
     #header .info p {
       font-size: 23px;
@@ -337,6 +339,24 @@ audio {
   -webkit-animation-delay: 1s;
   -moz-animation-delay: 1s;
   animation-delay: 1s; }
+
+.whats-that {
+  margin-left: 20px;
+  font-weight: normal;
+  text-decoration: underline !important;
+  color: inherit;
+  cursor: pointer;
+  visibility: hidden; }
+  .whats-that.active {
+    visibility: visible; }
+
+footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 15px;
+  text-align: center;
+  font-weight: 400; }
 
 @-webkit-keyframes fadeIn {
   from {

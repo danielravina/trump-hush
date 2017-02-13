@@ -262,6 +262,7 @@ $(window).on('hashchange', function() {
     player.setVolume(100)
     player.unMute()
     swapIntro()
+    $('.whats-that').toggleClass('active', !!youtubeId)
   })
 });
 
@@ -269,15 +270,23 @@ $(document).ready(function(){
   loadingScreen.init()
 })
 
+var explainContent = \
+  'Trump Hush uses Artificail Intelegence and voice recognition<br />' +
+  'and is able to determain at which point Trump is speaking<br />' +
+  'The training data (mostly interviews and speaches)<br />' +
+  'is no longer than 1 hour of video so the acuracy spans around<br />' +
+  '85%. Therefore, you may actually hear his voice occasionally <br />' +
+  'or other speakers being censored instead. <br /><br />' +
+  'To learn more, check out the Project <a href="github.com/danielravina/trump-hush" target="_blank">source code</a>'
+
 $('.magic').webuiPopover({
   title:'What\'s the magic?',
   animation:'pop',
-  content:
-  'Trump Hush can identify the unique pitches<br>' +
-  'in trump\'s voice. The AI model was trained with<br>' +
-  'only one hour of video content, mostly interviews<br>' +
-  'and speaches, and is able to make the right decision <br>' +
-  '85% of the times. Therefore, you may hear his <br>' +
-  'voice occasionally (false-negative) or other speakers <br> ' +
-  'being censored instead. (false-positive)'
+  content: explainContent
+});
+
+$('.whats-that').webuiPopover({
+  title:'What\'s that?',
+  animation:'pop',
+  content: explainContent
 });
