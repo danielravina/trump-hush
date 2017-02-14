@@ -67,6 +67,7 @@ class Downloader:
       try:
         ydl.download(["http://www.youtube.com/watch?v=%s" % self.__youtube_id])
       except youtube_dl.utils.DownloadError as e:
+        print e
         raise DownlaodError(e)
 
 

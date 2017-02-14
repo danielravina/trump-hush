@@ -153,7 +153,7 @@ function showError(msg) {
       display = "Video not found. It's definitely hillary's fault.";
       break
     default:
-      display = "Something went tremendously wrong.";
+      display = "Listen, something went tremendously wrong.";
 
   }
   var error = document.getElementById('error')
@@ -250,6 +250,7 @@ $('.column').click(function(e) {
 
 function swapIntro() {
   $('#playerWrapper').toggleClass('active', true)
+  $('.whats-that').toggleClass('active', true)
   $('.intro').toggleClass('active', false)
 }
 
@@ -270,14 +271,14 @@ $(document).ready(function(){
   loadingScreen.init()
 })
 
-var explainContent = \
-  'Trump Hush uses Artificail Intelegence and voice recognition<br />' +
-  'and is able to determain at which point Trump is speaking<br />' +
-  'The training data (mostly interviews and speaches)<br />' +
-  'is no longer than 1 hour of video so the acuracy spans around<br />' +
-  '85%. Therefore, you may actually hear his voice occasionally <br />' +
-  'or other speakers being censored instead. <br /><br />' +
-  'To learn more, check out the Project <a href="github.com/danielravina/trump-hush" target="_blank">source code</a>'
+var explainContent =
+  'Trump Hush uses Artificial Intelligence with voice recognition<br />' +
+  'and is able to determain at which point Trump is speaking.<br />' +
+  'The training data (mostly interviews and speaches) is no longer<br />' +
+  'than one hour of video so the acuracy spans around 85%.<br />' +
+  'Therefore, you may actually hear his voice occasionally or<br />' +
+  'other speakers being censored instead. <br /><br />' +
+  'To learn more, check out the Project\'s <a href="https://github.com/danielravina/trump-hush" target="_blank">source code</a>'
 
 $('.magic').webuiPopover({
   title:'What\'s the magic?',

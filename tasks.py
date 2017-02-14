@@ -44,14 +44,8 @@ def add_new_video(youtube_id):
     video.set(youtube_id=youtube_id, state="too_long")
     video.save()
     return
-  except VideoNotFound as e:
-    video.set(youtube_id=youtube_id, state="not_found")
-    video.save()
-    return
-
   except DownlaodError as e:
-    video.set(youtube_id=youtube_id, state="not_found")
-    video.save()
+    video.set(youtube_id=youtube_id, state="download_error")
     return
 
   # Video might already exist if multiple jobs are in the queue

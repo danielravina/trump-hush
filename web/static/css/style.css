@@ -216,6 +216,7 @@ p, input, label, input {
       height: auto; }
 
 #error {
+  z-index: 3;
   background: #ff0065;
   text-align: center;
   padding: 10px;
@@ -356,7 +357,8 @@ footer {
   right: 0;
   bottom: 15px;
   text-align: center;
-  font-weight: 400; }
+  font-weight: 400;
+  font-size: 12px; }
 
 @-webkit-keyframes fadeIn {
   from {

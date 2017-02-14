@@ -22,4 +22,4 @@ scipy==0.17.0
 six==1.10.0
 sklearn==0.0
 Werkzeug==0.11.9
-youtube-dl==2016.5.10
+youtube-dl==2017.2.14
