@@ -272,12 +272,12 @@ $(document).ready(function(){
 })
 
 var explainContent =
-  'Trump Hush uses Artificial Intelligence with voice recognition<br />' +
-  'and is able to determain at which point Trump is speaking.<br />' +
-  'The training data (mostly interviews and speaches) is no longer<br />' +
-  'than one hour of video so the acuracy spans around 85%.<br />' +
-  'Therefore, you may actually hear his voice occasionally or<br />' +
-  'other speakers being censored instead. <br /><br />' +
+  'Trump Hush uses Artificial Intelligence with voice recognition ' +
+  'and is able to determain at which frame in the video Trump is speaking. ' +
+  'The training data (combination of interviews and speeches) is only ' +
+  'an hour of videos so the accuracy spans around 85%. ' +
+  'Therefore, you may actually hear his voice occasionally or ' +
+  'other speakers being censored instead. <br><br>' +
   'To learn more, check out the Project\'s <a href="https://github.com/danielravina/trump-hush" target="_blank">source code</a>'
 
 $('.magic').webuiPopover({
@@ -287,7 +287,7 @@ $('.magic').webuiPopover({
 });
 
 $('.whats-that').webuiPopover({
-  title:'What\'s that?',
+  title:'What is Trump Hush?',
   animation:'pop',
   content: explainContent
 });
